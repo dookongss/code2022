@@ -1,0 +1,72 @@
+<script>
+  /**
+   * 发布订阅模式
+  */
+  function EventEmitter() {
+    this.event = {}  
+  }
+
+  EventEmitter.prototype.on = EventEmitter.prototype.addEventListener = function(type, listener) {
+    if(typeof listener !== 'function') {
+      throw new TypeError('ther event-trigger callback must be a function')
+    }
+    if(this.event[type]) {
+      this.event[type].push(listener)
+    } else {
+      this.event[type] = [listener]
+    }
+  }
+
+  EventEmitter.prototype.emit = function(type,...args) {
+    let callbacks = this.event[type]
+    if(callbacks) {
+      callbacks.forEach(fn => {
+        fn(...args)
+      });
+    }
+  }
+
+  EventEmitter.prototype.off = EventEmitter.prototype.removeEventListener = function(type, listener) {
+    if(!this.event[type]) return
+    this.event[type] = this.event[type].filter((fn) => fn !== listener)
+  }
+
+  EventEmitter.prototype.once = function(type, listener) {
+    const wrapper = (...args) => {
+      listener(...args)
+      this.off(type, wrapper)
+    }
+    this.on(type,wrapper)
+  }
+
+  EventEmitter.prototype.removeAllEventListener = function(...type) {
+    if(type.length) {
+      type.forEach((e) => {
+        this.event[e] = null
+      })
+    } else {
+      this.event = {}
+    }
+  }
+
+// test case
+const emt = new EventEmitter()
+const listener1 = (...args) => {
+  console.log('sayHi',...args)
+}
+const listener2 = (...args) => {
+  console.log('sayHello',...args)
+}
+emt.on('sayHi',listener1)
+emt.once('sayHi',listener2)
+
+emt.on('work',(...args)=>{
+  console.log('startWork',...args)
+})
+// emt.emit('sayHi','hello world!')
+// emt.removeAllEventListener('sayHi')
+// emt.removeEventListener('sayHi',listener1)
+emt.emit('sayHi','hello world!')
+emt.emit('sayHi','hello world!')
+// emt.emit('work','work hard')
+</script>
