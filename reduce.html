@@ -1,0 +1,19 @@
+<html>
+  <script>
+    Array.prototype.myReduce = function(cb,init) {
+      const arr = this
+      let total = init || arr[0]
+      // 有初始值从0遍历，否则从1遍历
+      for(let i= init?0:1;i<arr.length;i++){
+        total = cb(total,arr[i],i,arr)
+      }
+      return total
+    }
+
+    const arr = [1, 2, 3, 4];
+    let res = arr.myReduce((pre,cur)=>{
+      return pre + cur
+    },1)
+    console.log(res)
+  </script>
+</html>

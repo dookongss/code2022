@@ -1,0 +1,51 @@
+<script>
+/**
+ * -typeof 
+ * 1.typeof根据变量的机器码的低位1-3位存储的类型信息来判断
+ *  000：对象
+ *  010：浮点数
+ *  100：字符串
+ *  110：布尔
+ *  1：整数
+ *  null：所有机器码都为0
+ *  undefined：用-2^30整数来表示
+ * 2.用于判断变量的类型，判断number,string,object,boolean,function,symbol,undefined
+ * 3.如果要判断对象的具体类型可以用instanceof
+ * 
+ * -instanceof
+ * 1.instanceof根据原型链查找
+ * 2.instanceof判断数组会被认为是Object
+ * 
+ * -Object.prototype.toString
+*/
+function myInstanceof(target,origin) {
+  if(typeof target !== 'object' || target === null) return false
+  if(typeof origin !== 'function') throw new TypeError('origin must be function')
+  let proto = Object.getPrototypeOf(target)
+  while(proto){
+    // origin的prototype在target的原型链上即可
+    if(proto === origin.prototype) return true
+    proto = Object.getPrototypeOf(proto)
+  }
+  return false
+}
+let Person = function() {}
+let person = new Person()
+console.log(myInstanceof(person,Person))
+
+let s = new String('abc');
+console.log(s instanceof String) // true
+console.log(myInstanceof(s,String))
+
+Object.prototype.toString.call(1) // "[object Number]"
+Object.prototype.toString.call('hi') // "[object String]"
+Object.prototype.toString.call({a:'hi'}) // "[object Object]"
+Object.prototype.toString.call([1,'a']) // "[object Array]"
+Object.prototype.toString.call(true) // "[object Boolean]"
+Object.prototype.toString.call(() => {}) // "[object Function]"
+Object.prototype.toString.call(null) // "[object Null]"
+Object.prototype.toString.call(undefined) // "[object Undefined]"
+Object.prototype.toString.call(Symbol(1)) // "[object Symbol]"
+
+console.log(typeof null) // object
+</script>
