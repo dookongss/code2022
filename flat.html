@@ -1,0 +1,37 @@
+<html>
+  <script>
+    const arr = [1, [2, [3, 4]]];
+    const deps = {
+    '采购部':[1,2,3],
+    '人事部':[5,8,12],
+    '行政部':[5,14,79],
+    '运输部':[3,64,105],
+    }
+    
+    /**
+     * 数组扁平化
+    */
+    function flat(arr){
+      return arr.reduce((pre,cur)=>{
+        return pre.concat(Array.isArray(cur)?flat(cur):cur)
+      },[])
+    }
+    console.log(flat(arr))
+
+    /**
+     * ES6 flat
+    */
+    let member = Object.values(deps).flat(Infinity); // [1, 2, 3, 5, 8, 12, 5, 14, 79, 3, 64, 105]
+    console.log(member)
+
+    /**
+     * toString：这种方法使用的场景却非常有限，必须数组中元素全部都是 Number。 也可以全部都为 String
+    */
+    console.log(arr.toString()); // [1, 2, 3, 4]
+    
+    /**
+     * ES6解构赋值
+    */
+   console.log([1,...[2,...[3,4]]])
+  </script>
+</html>

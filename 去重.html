@@ -1,0 +1,15 @@
+<html>
+  <script>
+    function setUnique(arr) {
+      return [...new Set(arr)]
+    }
+    function filterUnique(arr) {
+      return arr.filter((item,index,array)=>{
+        return array.indexOf(item) === index
+      })
+    }
+    const arr = [1,1,2,3,3,2,5]
+    console.log(setUnique(arr))
+    console.log(filterUnique(arr))
+  </script>
+</html>
