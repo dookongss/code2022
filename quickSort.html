@@ -44,4 +44,22 @@ function swap(left,right,arr){
   arr[right] = tmp
 }
 console.log(quickSort(arr))
+
+function myQuickSort(arr,start=0,end=arr.leng-1) {
+  if(start >= end) return
+  let left = start
+  let right = end
+  while(left<right) {
+    while(('' + arr[right] + arr[base]>=''+arr[base]+arr[right]) && left<right) right--
+    while(('' + arr[left] + arr[base]<=''+arr[base]+arr[left]) && left<right) left++
+    let temp = arr[left]
+    arr[left] = arr[right]
+    arr[right] = temp
+  }
+  let temp = arr[start]
+  arr[start] = arr[left]
+  arr[left] = temp
+  myQuickSort(arr,start,left-1)
+  myQuickSort(arr,left+1,end)
+}
 </script>

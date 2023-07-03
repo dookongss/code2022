@@ -112,7 +112,7 @@ const configuration = {
         common: {
           name: 'chunk-common',
           chunks: 'all',
-          minChunks: 2,
+          minChunks: 2, // 提取项目所有公共引用在2次以上
           maxInitialRequests: 5,
           minSize: 0,
           priority: 1,

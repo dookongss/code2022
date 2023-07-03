@@ -251,4 +251,32 @@ const target = {
 };
 
 console.log(clone3(target))
+
+function baseDeepClone(obj,map = new Map()){
+    if(typeof obj !== 'object') return obj
+    if(map.has(obj)) return map.get(obj)
+    let result = {}
+    if(obj instanceof Array) {
+        result = []
+    }
+    map.set(obj,result)
+    for(key in obj){
+        if(obj.hasOwnProperty(key)) result[key] = baseDeepClone(obj[key],map)
+    }
+    return result
+}
+
+function clonePractice(obj,map = new Map()) {
+    if(typeof obj!=='object')return obj
+    if(map.has(obj)) return map.get(obj)
+    let result = {}
+    if(obj instanceof Array) {
+        result = []
+    }
+    map.set(obj,result)
+    for(key in obj) {
+        if(obj.hasOwnProperty(key)) result[key] = clonePractice(obj[key],map)
+    }
+    return result
+}
 </script>
